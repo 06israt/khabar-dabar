@@ -4,24 +4,30 @@ import { food_list } from "../assets/assets.js";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const[cartItems,setCartItems]=useState({});
-  const addToCart =(itemId) =>{
-    if(!cartItems[itemId]){
-      setCartItems((prev)=>({...prev,[itemId]:1}))
+  const [cartItems, setCartsItems] = useState({});
+
+  const addToCart = (itemId) => {
+    if (!cartItems[itemId]) {
+      setCartsItems((prev) => ({ ...prev, [itemId]: 1 }));
+    } else {
+      setCartsItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     }
-    else {setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))}
-  }
-  const removeFromCart =(itemId) =>{
-     setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))}
-  useEffect(()=>{
+  };
+
+  const removeFromCart = (itemId) => {
+    setCartsItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  };
+
+  useEffect(() => {
     console.log(cartItems);
-  },[cartItems])
+  }, [cartItems]);
+
   const contextValue = {
     food_list,
     cartItems,
-    setCartItems,
+    setCartsItems,
     addToCart,
-    removeFromCart
+    removeFromCart,
   };
   return (
     <StoreContext.Provider value={contextValue}>
